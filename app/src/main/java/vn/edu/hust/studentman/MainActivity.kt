@@ -92,19 +92,19 @@ class MainActivity : AppCompatActivity() {
         val newName = it.data?.getStringExtra("newName")
         val newId = it.data?.getStringExtra("newId")
 
-        if (editingStudent == null) {
-          Snackbar.make(findViewById(android.R.id.content), "Invalid student position", Snackbar.LENGTH_LONG).show()
-          return@registerForActivityResult
-        } else {
-          if (newName != null) {
+        if (newName != null && newId != null) {
+          if (editingStudent == null) {
+            val newStudent = StudentModel(newName, newId)
+            students.add(newStudent)
+            Snackbar.make(findViewById(android.R.id.content), "Thêm sinh viên mới thành công", Snackbar.LENGTH_LONG).show()
+          } else {
             editingStudent!!.studentName = newName
-          }
-
-          if (newId != null) {
             editingStudent!!.studentId = newId
+            Snackbar.make(findViewById(android.R.id.content), "Cập nhật sinh viên thành công", Snackbar.LENGTH_LONG).show()
           }
-
           studentAdapter.notifyDataSetChanged()
+        } else {
+          Snackbar.make(findViewById(android.R.id.content), "Dữ liệu không hợp lệ", Snackbar.LENGTH_LONG).show()
         }
       }
     }
@@ -118,12 +118,14 @@ class MainActivity : AppCompatActivity() {
   override fun onOptionsItemSelected(item: MenuItem): Boolean {
     return when (item.itemId) {
       R.id.menuAddNew -> {
-        addNewDialog.show()
+        val intent = Intent(this, AddStudentActivity::class.java)
+        launcher.launch(intent)
         true
       }
       else -> super.onOptionsItemSelected(item)
     }
   }
+
 
   override fun onCreateContextMenu(
     menu: ContextMenu?,

@@ -39,4 +39,5 @@ class StudentAdapter(
 
     return view;
   }
+
 }
