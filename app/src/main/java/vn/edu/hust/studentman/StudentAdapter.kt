@@ -39,5 +39,11 @@ class StudentAdapter(
 
     return view;
   }
+  fun updateData(newStudents: List<StudentModel>) {
+    students.clear()
+    students.addAll(newStudents)
+    notifyDataSetChanged()
+  }
+
 
 }
